@@ -1,0 +1,22 @@
+{
+  "globals": {
+    "Bee" : true
+  },
+  "env": {
+    "node": true,
+    "es6": true
+  },
+
+  "rules": {
+    "semi": ["error", "always"],
+    "eqeqeq": "warn",
+    "handle-callback-err": "warn",
+    "require-jsdoc": "warn",
+    "no-array-constructor": "error",
+    "no-global-assign": "error",
+    "new-cap": "error",
+    "no-loop-func":"warn",
+    "no-confusing-arrow": "warn",
+    "no-throw-literal": "error"
+  }
+}

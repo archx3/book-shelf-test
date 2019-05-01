@@ -1,0 +1,8 @@
+{
+  "env" : {
+    "MONGO_ATLAS_PW" : "leTmeP@s$",
+    "MONGO_LOCAL_PW" : "leTmeP@s$",
+    "PASS_SALT" : "NKNKBGIHopsdshodpsdoue0wue-0uwe04",
+    "JWT_KEY" : "sdbjsbdbuoer"
+  }
+}
