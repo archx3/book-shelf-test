@@ -3,8 +3,6 @@ const router = express.Router();
 //const lodash = require('lodash');
 const Book = require('../../models/Book');
 let title = "Book Ave.";
-const passport = require('passport');
-const GoogleStra = require('passport-google-oauth2');
 
 function getQ(req)
 {
@@ -15,18 +13,11 @@ let routeGroups = {
   webRoutes : [
     { //GET Single Item
       method  : 'GET',
-      name    : '/',
+      name    : 'google',
       // handler can be a single function or an array of functions
       handler : function(req, res, next) {
-        Book.find().then(function (books)
-                         {
-                           res.status(200)
-                              .render('index', {
-                                title: title,
-                                books : books,
-                                sq : getQ(req)
-                              });
-                         });
+        // TODO handle with passport
+        res.send("logging in w/ goog");
       }
     },
     { //Login
@@ -50,7 +41,7 @@ let routeGroups = {
       name    : 'logout',
       // handler can be a single function or an array of functions
       handler : function(req, res, next) {
-        res.render('index', { title: title });
+        res.send("logging out");
       }
     },
     { //GET all books

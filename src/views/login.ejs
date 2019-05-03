@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <% include components/head.ejs %>
+</head>
+
+<body>
+<div class="breadcrumb">
+  <div class="container">
+    <span class="breadcrumb-item active"><b>Login</b></span>
+  </div>
+</div>
+<section class="static about-sec">
+  <div class="container">
+    <h1>Login into your account</h1>
+    <div id="form">
+      <form>
+        <div class="row">
+          <div class="col-md-5">
+            <input placeholder="Enter User Name" type="email" v-model="email" required>
+            <span class="required-star">*</span>
+          </div>
+          <div class="col-md-5">
+            <input placeholder="Enter Email Address" v-model="pass" required>
+            <span class="required-star">*</span>
+          </div>
+          <div class="col-lg-8 col-md-12">
+            <button class="btn black" @click="submit">Login</button>
+            <h5>not Registered? <a href="/register">REGISTER HERE</a></h5>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+<% include components/footer.ejs %>
+<% include components/ft-scripts.ejs %>
+<script>
+  (function ()
+  {
+    let form = new Vue({
+                         el       : '#form',
+                         data     : {
+                           form : {
+                             email : '',
+                             pass  : '',
+                           }
+                         },
+                         methods  : {
+                           submit : function ()
+                           {
+                             axios.post('/api/auth/login', {
+                               email    : this.form.email,
+                               password : this.form.pass,
+                             }).then(function (response)
+                                     {
+                                       /*if(response.data.message.success === 1){
+                                        alert(`Sign Succesful`)
+                                        }
+                                        else{
+                                        alert(`Sign unsuccesful `)
+                                        }*/
+                                     })
+                           }
+                         },
+                         computed : {
+                           canSubmit : function ()
+                           {
+                             console.log(Object.keys(this.form));
+                             return Object.keys(this.form).some(function (field)
+                                                                {
+                                                                  return field === "";
+                                                                })
+                           }
+                         },
+                       })
+  }());
+</script>
+</body>
+
+</html>

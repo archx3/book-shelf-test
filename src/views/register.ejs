@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include components/head.ejs%>
+</head>
+
+<body>
+<% include components/header.ejs%>
+    <div class="breadcrumb">
+        <div class="container">
+            <span class="breadcrumb-item active"><b>Register</b></span>
+        </div>
+    </div>
+    <section class="static about-sec">
+        <div class="container">
+            <h1>Create Account</h1>
+            <div class="form" id="form">
+                <form method="post">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <input placeholder="First Name" type="text" name="fname" v-model="form.fname" required>
+                            <span class="required-star">*</span>
+                        </div>
+                        <div class="col-md-5">
+                            <input type="text" placeholder="Last Name" name="lname" v-model="form.lname" required>
+                            <span class="required-star">*</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <input placeholder="User Name" name="umane" v-model="form.uname" required>
+                            <span class="required-star">*</span>
+                        </div>
+                        <div class="col-md-5">
+                            <input type="email" placeholder="Email Address" name="email" v-model="form.email" required>
+                            <span class="required-star">*</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <input placeholder="Password" type="password" name="pass" v-model="form.pass" required>
+                            <span class="required-star">*</span>
+                        </div>
+                        <div class="col-md-5">
+                            <input type="password" placeholder="Confirm Password" name="cfm-pass" v-model="form.cfmpass" required>
+                            <span class="required-star">*</span>
+                        </div>
+                        <div class="col-lg-8 col-md-12">
+                            <button class="btn black" type="button" @click="submit">Submit</button>
+                            <h5>Already Registered? <a href="/login">Login</a></h5>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+<% include components/footer.ejs%>
+<% include components/ft-scripts.ejs%>
+<script>
+    (function()
+    {
+       let form = new Vue({
+           el : '#form',
+           data : {
+               form : {
+                   fname : '',
+                   lname : '',
+                   email : '',
+                   uname : '',
+                   pass : '',
+                   cfmpass : ''
+               }
+           },
+           methods : {
+               submit : function ()
+               {
+                   axios.post('/api/users/signup', {
+                       first_name: this.form.fname,
+                       last_name: this.form.lname,
+                       email: this.form.email,
+                       username: this.form.uname,
+                       password: this.form.pass,
+                   }).then(function (response) {
+                       if(response.data.message.success === 1){
+                           alert(`Sign Succesful`)
+                       }
+                       else{
+                           alert(`Sign unsuccesful `)
+                       }
+                   })
+               }
+           },
+           computed : {
+               canSubmit : function ()
+               {
+                   console.log(Object.keys(this.form));
+                   return Object.keys(this.form).some(function (field)
+                   {
+                       return field === "";
+                   })
+               }
+           },
+                          })
+    }());
+</script>
+</body>
+</html>

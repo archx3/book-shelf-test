@@ -981,7 +981,7 @@ var Dom = {
 
   /**
    *
-   * @param elRule {Element.style}
+   * @param elRule {style}
    * @param el {Element}
    * @returns {Number}
    */

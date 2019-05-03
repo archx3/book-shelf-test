@@ -36,10 +36,10 @@ const UserSchema = mongoose.Schema(
     type     : String,
     required : true
   },
-  dob         : {
-    type     : mongoose.Schema.Types.Date,
-    required : true
-  },
+  //dob         : {
+  //  type     : mongoose.Schema.Types.Date,
+  //  required : true
+  //},
   profile_pic : String,
 
   address : require('./Address'), //has the address schema

@@ -75,6 +75,8 @@ app.use((req, res, next) => {
 // initialise routes and handlers
 // prefix all api related routes with '/api
 app.use('/api', require('./api/routes/api'));
+//let's register auth routes here
+app.use('/auth', require('./api/routes/auth'));
 //let's register web related routes here
 app.use('/', require('./api/routes/web'));
 
