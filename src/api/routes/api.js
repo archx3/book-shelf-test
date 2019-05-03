@@ -3,7 +3,6 @@ const router = express.Router();
 //const lodash = require('lodash');
 let routeGroups = {
   books : require('./api/books'),
-  orders : require('./api/orders'),
   users : require('./api/users'),
 };
 

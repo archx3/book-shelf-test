@@ -24,7 +24,8 @@ let routeGroups = {
                               .render('index', {
                                 title: title,
                                 books : books,
-                                sq : getQ(req)
+                                sq : getQ(req),
+                                authenticated : req.isAuthenticated()
                               });
                          });
       }
@@ -43,6 +44,14 @@ let routeGroups = {
       // handler can be a single function or an array of functions
       handler : function(req, res, next) {
         res.render('register', { title: title, sq : getQ(req) });
+      }
+    },
+    { //Login
+      method  : 'GET',
+      name    : 'add-book',
+      // handler can be a single function or an array of functions
+      handler : function(req, res, next) {
+        res.render('add-book', { title: title, sq : getQ(req) });
       }
     },
     { //Logout

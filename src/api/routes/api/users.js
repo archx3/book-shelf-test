@@ -79,7 +79,7 @@ let routes = [
      * @param res
      * @param next
      */
-    handler : userController.login
+    handler : userController.attemptLogin
   },
   {
     //UPDATE the fields in a particular Item

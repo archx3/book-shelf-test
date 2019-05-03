@@ -7,6 +7,7 @@ var sassMiddleware = require('node-sass-middleware');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const morgan = require("morgan");
+const passport = require('passport');
 
 
 
@@ -27,6 +28,7 @@ db.once('open', function ()
   // we're connected!
   console.log("We're connected to the Mongo database");
 });
+require('./models');
 
 //let's use morgan to log stuff to our console silently
 app.use(morgan("dev"));
@@ -69,6 +71,25 @@ app.use((req, res, next) => {
     return res.status(200).json({});
   }
   next();
+});
+
+require('./authentication').init(app);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser(function (user, cb) {
+  cb(null, user._id)
+});
+
+let Users = require('./models/User');
+
+passport.deserializeUser(function (id, cb) {
+  Users.findOne({_id: id}).then(function (user) {
+    return cb(null, user);
+  }).catch(function (err) {
+    return callback(err);
+  });
 });
 
 //let's now register our routes

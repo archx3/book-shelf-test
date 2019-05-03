@@ -6,32 +6,37 @@
 </head>
 
 <body>
+<% include components/header-li.ejs%>
 <div class="breadcrumb">
   <div class="container">
-    <span class="breadcrumb-item active"><b>Login</b></span>
+    <span class="breadcrumb-item active"><b>Add New Book</b></span>
   </div>
 </div>
 <section class="static about-sec">
   <div class="container">
-    <h1>Login into your account</h1>
     <div id="form">
-      <form method="post" action="/api/users/login">
-        <div class="row">
+      <form>
+        <div class="row mb-2">
           <div class="col-md-5">
-            <input placeholder="Enter User Name" type="email" v-model="email" required>
+            <input placeholder="Book Title" type="text" v-model="title" required>
             <span class="required-star">*</span>
           </div>
         </div>
-          <div class="row">
+        <div class="row mb-2">
           <div class="col-md-5">
-            <input placeholder="Enter Email Address" type="password" v-model="pass" required>
+            <input placeholder="Author" v-model="author" required>
             <span class="required-star">*</span>
           </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-5">
+            <input placeholder="Genre" v-model="genre" required>
+            <span class="required-star">*</span>
           </div>
-        <div class="row">
+        </div>
+        <div class="row mb-2">
           <div class="col-lg-8 col-md-12">
-            <button class="btn black" type="submit" >Login</button>
-            <h5>not Registered? <a href="/register">REGISTER HERE</a></h5>
+            <button class="btn black" type="button" @click="submit">Save</button>
           </div>
         </div>
       </form>
@@ -47,24 +52,25 @@
                          el       : '#form',
                          data     : {
                            form : {
-                             email : '',
-                             pass  : '',
+                             title : '',
+                             author  : '',
+                             genre  : '',
                            }
                          },
                          methods  : {
                            submit : function ()
                            {
-                             axios.post('/api/auth/login', {
+                             axios.post('/api/books', {
                                email    : this.form.email,
                                password : this.form.pass,
                              }).then(function (response)
                                      {
-                                       /*if(response.data.message.success === 1){
-                                        alert(`Sign Succesful`)
+                                       if(response.data.message.success === 1){
+                                        alert(`Book Added Successfully`)
                                         }
                                         else{
-                                        alert(`Sign unsuccesful `)
-                                        }*/
+                                        alert(`An Error occurred, please give it another try`)
+                                        }
                                      })
                            }
                          },

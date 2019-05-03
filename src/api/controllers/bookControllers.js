@@ -97,7 +97,9 @@ let controller = {
                 {
                   res.status(200)
                      .json({
-                             message : '',
+                             message : {
+                               success : 1
+                             },
                              result  : book,
                              request : {
                                method : 'POST',

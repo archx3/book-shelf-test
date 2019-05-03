@@ -1,5 +1,6 @@
 const User = require('../../models/User');
 const helpers = require('../../lib/helpers');
+const passport = require('passport');
 const jwt = require('jsonwebtoken');
 let createUser = function(req, res, next){
   User.create(req.body)
@@ -125,59 +126,31 @@ let controller = {
 },
   login : function (req, res, next)
   {
-    // let's allow using username|email|phone number to login
-    // //Let's determine (using) whether it' a username, email, or password they are logging in with
-    // Let's implement the email first
-    let findOptions = {email : req.body.email};
-    // using find because it will return multiple users which is necessary when logging in in with phone number
-    // as more than one account can have one phone number
-    // when more that one account has the same phone number
-    // and the same password, we'll login the first occurrence
-    console.log(req.body.email);
-    let userIdType = 'email';
-    User.find(findOptions)
-        .then(function (users)
-              {
-                console.log(users);
-                if(users.length > 0)
-                {
-                  // we have the person(s) let's try logging them in
-                  //In the case of phone number login we'll try all the accounts
-                  let user = userIdType === 'email' || userIdType === 'username' ? users[0] : users;
-                  console.log('user', user);
-                  helpers.compareHash(req.body.password, user.password, function (err, match)
-                  {
-                    if (match)
-                    {
-                      const token = jwt.sign(
-                        {
-                          email : user.email,
-                          username : user.username,
-                          phone : user.phone || "",
-                          userId : user._id
-                        },
-                        process.env.JWT_KEY,
-                        {
-                          expiresIn : "1h"
-                        });
-                      return res.status(200)
-                                .json({
-                                        token   : token,
-                                        message : 'Auth successful'
-                                      });
-                    }
-                    return res.status(401)
-                              .json({ err : err,
-                                      message : 'Auth failed' });
-                  })
-                }else{
-                  return res.status(401)
-                            .json({message : 'Auth failed'});
-                }
-              }).catch(err => {
-      console.log(err);
-    })
+      if (req.isAuthenticated()) {
+        res.redirect(req.baseUrl + '/')
+      }else{
+        res.render('login');
+      }
   },
+  attemptLogin : function (req, res, next)
+  {
+    passport.authenticate('local', (err, user) => {
+      if (err) {
+        console.error(err);
+      }
+
+      req.login(user, (er) => {
+        //FIXME DO NOT
+        console.log("User: " + req.user);
+        if (user)
+        {
+          //TODO work on dashboard
+          res.redirect(req.baseUrl + '/');
+        }
+      });
+    })(req, res, next);
+  },
+
   checkAvailability : function (req, res, next)
   {
     /*User.findOne({ `${req.params.property}` : req.params.value })
