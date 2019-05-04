@@ -29,6 +29,25 @@ db.once('open', function ()
   console.log("We're connected to the Mongo database");
 });
 require('./models');
+let Users = require('./models/User');
+
+require('./authentication').init(app);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser(function (user, cb) {
+  cb(null, user._id)
+});
+
+
+passport.deserializeUser(function (id, cb) {
+  Users.findOne({_id: id}).then(function (user) {
+    return cb(null, user);
+  }).catch(function (err) {
+    return callback(err);
+  });
+});
 
 //let's use morgan to log stuff to our console silently
 app.use(morgan("dev"));
@@ -73,24 +92,7 @@ app.use((req, res, next) => {
   next();
 });
 
-require('./authentication').init(app);
 
-app.use(passport.initialize());
-app.use(passport.session());
-
-passport.serializeUser(function (user, cb) {
-  cb(null, user._id)
-});
-
-let Users = require('./models/User');
-
-passport.deserializeUser(function (id, cb) {
-  Users.findOne({_id: id}).then(function (user) {
-    return cb(null, user);
-  }).catch(function (err) {
-    return callback(err);
-  });
-});
 
 //let's now register our routes
 // initialise routes and handlers

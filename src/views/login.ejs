@@ -15,16 +15,16 @@
   <div class="container">
     <h1>Login into your account</h1>
     <div id="form">
-      <form method="post" action="/api/users/login">
+      <form method="post" action="/auth/login">
         <div class="row">
           <div class="col-md-5">
-            <input placeholder="Enter User Name" type="email" v-model="email" required>
+            <input placeholder="Enter User Name" type="email" name="email" v-model="email" required>
             <span class="required-star">*</span>
           </div>
         </div>
           <div class="row">
           <div class="col-md-5">
-            <input placeholder="Enter Email Address" type="password" v-model="pass" required>
+            <input placeholder="Enter Email Address" type="password" name="password" v-model="pass" required>
             <span class="required-star">*</span>
           </div>
           </div>

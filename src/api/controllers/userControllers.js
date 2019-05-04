@@ -127,10 +127,14 @@ let controller = {
   login : function (req, res, next)
   {
       if (req.isAuthenticated()) {
-        res.redirect(req.baseUrl + '/')
+        res.redirect('/')
       }else{
         res.render('login');
       }
+  },logout : function (req, res, next)
+  {
+    req.logout();
+    res.redirect('/');
   },
   attemptLogin : function (req, res, next)
   {
@@ -138,14 +142,14 @@ let controller = {
       if (err) {
         console.error(err);
       }
-
+      console.log('here');
       req.login(user, (er) => {
         //FIXME DO NOT
         console.log("User: " + req.user);
         if (user)
         {
           //TODO work on dashboard
-          res.redirect(req.baseUrl + '/');
+          res.redirect('/');
         }
       });
     })(req, res, next);

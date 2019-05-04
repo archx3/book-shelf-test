@@ -30,12 +30,36 @@ let routeGroups = {
                          });
       }
     },
-    { //Login
+    { //GET Single Item
+      method  : 'GET',
+      name    : '/dashboard',
+      // handler can be a single function or an array of functions
+      handler : function(req, res, next) {
+        Book.find().then(function (books)
+                         {
+                           res.status(200)
+                              .render('index', {
+                                title: title,
+                                books : books,
+                                sq : getQ(req),
+                                authenticated : req.isAuthenticated()
+                              });
+                         });
+      }
+    },
+    { //GET Login
       method  : 'GET',
       name    : 'login',
       // handler can be a single function or an array of functions
-      handler : function(req, res, next) {
-        res.render('login', { title: title });
+      handler : function(req, res, next)
+      {
+        if (req.isAuthenticated()) {
+          res.redirect('/dashboard');
+        }
+        else
+        {
+          res.render('login', { title : title });
+        }
       }
     },
     { //Login

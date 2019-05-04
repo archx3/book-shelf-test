@@ -4,6 +4,7 @@ const router = express.Router();
 const passport = require('passport');
 const Book = require('../../models/Book');
 let title = "Book Ave.";
+let userController = require('../controllers/userControllers');
 
 function getQ(req)
 {
@@ -20,6 +21,12 @@ let routeGroups = {
         // TODO handle with passport
         res.send("logging in w/ goog");
       }
+    },
+    {
+      //login user a new Item
+      method  : 'GET',
+      name    : 'logout',
+      handler : userController.logout
     }
   ]
 };
